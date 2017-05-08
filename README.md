@@ -1,5 +1,5 @@
 # ZMaterialComponents
 * TZMaterialEdit
-* TZMaterialBackButton (animation by sinuke https://github.com/sinuke)
+* TZMaterialBackButton (animation by @sinuke https://github.com/sinuke)
 
 PackageGenerator: https://github.com/errorcalc/PackagesGenerator
