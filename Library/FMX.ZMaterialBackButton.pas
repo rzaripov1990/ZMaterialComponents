@@ -2,6 +2,8 @@ unit FMX.ZMaterialBackButton;
 
 {
   author: Ravil (ZuBy) Zaripov
+          animation by sinuke 
+          https://github.com/sinuke
 
   email: rzaripov1990@gmail.com
 
