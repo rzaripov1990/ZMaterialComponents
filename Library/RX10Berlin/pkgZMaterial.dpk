@@ -25,7 +25,7 @@ package pkgZMaterial;
 {$IMAGEBASE $400000}
 {$DEFINE DEBUG}
 {$ENDIF IMPLICITBUILDING}
-{$DESCRIPTION 'ZMaterial Components by ZuBy'}
+{$DESCRIPTION 'ZMaterial Components  author: ZuBy'}
 {$IMPLICITBUILD ON}
 {$LIBSUFFIX '310'}
 
@@ -34,6 +34,7 @@ requires
   fmx;
 
 contains
-  FMX.ZMaterialEdit in '..\FMX.ZMaterialEdit.pas';
+  FMX.ZMaterialEdit in '..\FMX.ZMaterialEdit.pas',
+  FMX.ZMaterialBackButton in '..\FMX.ZMaterialBackButton.pas';
 
 end.

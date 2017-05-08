@@ -1,0 +1,79 @@
+object Form2: TForm2
+  Left = 0
+  Top = 0
+  Caption = 'Back Button Transformations Demo'
+  ClientHeight = 296
+  ClientWidth = 253
+  Fill.Kind = Solid
+  Position = DesktopCenter
+  FormFactor.Width = 320
+  FormFactor.Height = 480
+  FormFactor.Devices = [Desktop]
+  DesignerMasterStyle = 0
+  object Rectangle1: TRectangle
+    Align = Top
+    Fill.Color = xFF5174E3
+    Locked = True
+    HitTest = False
+    Size.Width = 253.000000000000000000
+    Size.Height = 56.000000000000000000
+    Size.PlatformDefault = False
+    Stroke.Kind = None
+    object ShadowEffect1: TShadowEffect
+      Distance = 1.000000000000000000
+      Direction = 90.000000000000000000
+      Softness = 0.200000002980232200
+      Opacity = 0.300000011920929000
+      ShadowColor = claBlack
+    end
+    object sbMenu: TSpeedButton
+      Align = Left
+      Size.Width = 57.000000000000000000
+      Size.Height = 56.000000000000000000
+      Size.PlatformDefault = False
+      OnClick = zmbKindClick
+      object zmbKind: TZMaterialBackButton
+        Align = Left
+        Locked = True
+        Size.Width = 57.000000000000000000
+        Size.Height = 56.000000000000000000
+        Size.PlatformDefault = False
+        TabOrder = 1
+      end
+    end
+    object sbBack: TSpeedButton
+      Align = Left
+      Position.X = 57.000000000000000000
+      Size.Width = 57.000000000000000000
+      Size.Height = 56.000000000000000000
+      Size.PlatformDefault = False
+      OnClick = zmbBackClick
+      object zmbBack: TZMaterialBackButton
+        Align = Left
+        Locked = True
+        Size.Width = 57.000000000000000000
+        Size.Height = 56.000000000000000000
+        Size.PlatformDefault = False
+        TabOrder = 1
+        Kind = Back
+      end
+    end
+    object sbClose: TSpeedButton
+      Align = Left
+      Position.X = 114.000000000000000000
+      Size.Width = 57.000000000000000000
+      Size.Height = 56.000000000000000000
+      Size.PlatformDefault = False
+      OnClick = zmbCloseClick
+      object zmbClose: TZMaterialBackButton
+        Align = Left
+        Locked = True
+        Size.Width = 57.000000000000000000
+        Size.Height = 56.000000000000000000
+        Size.PlatformDefault = False
+        TabOrder = 1
+        Kind = Close
+      end
+    end
+  end
+end
