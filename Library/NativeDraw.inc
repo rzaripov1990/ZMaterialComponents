@@ -1,0 +1,10 @@
+﻿{$SCOPEDENUMS ON}
+
+{$IFDEF MACOS}
+  {$IFNDEF IOS}
+    {$DEFINE MACOSONLY}
+  {$ENDIF}
+{$ENDIF}
+
+{$DEFINE UseNativeDraw} // 使用原生绘图
+

@@ -2,13 +2,12 @@ unit FMX.ZMaterialBackButton;
 
 {
   author: Ravil (ZuBy) Zaripov
-          animation by sinuke 
-          https://github.com/sinuke
-
   email: rzaripov1990@gmail.com
-
   http://github.com/rzaripov1990
 
+
+  animation by sinuke
+  https://github.com/sinuke
   2017
 }
 
@@ -17,13 +16,15 @@ interface
 {$SCOPEDENUMS ON}
 
 uses
-  System.SysUtils, System.Classes, FMX.Types, FMX.Controls, FMX.Layouts,
-  FMX.Objects, System.UITypes;
+  System.SysUtils, System.Classes, System.UITypes,
+  FMX.Types, FMX.Controls, FMX.Layouts, FMX.Objects,
+  FMX.ZMaterialTypes;
 
 type
   TZMaterialBackButtonKind = (Menu, Back, Close);
   TZMaterialBackButtonAnimationType = (None, MenuToBack, BackToMenu, MenuToClose, CloseToMenu);
 
+  [ComponentPlatformsAttribute(cpaAllPlatforms)]
   TZMaterialBackButton = class(TLayout)
   private
     FLayout: TLayout;

@@ -1,0 +1,191 @@
+object Form1: TForm1
+  Left = 0
+  Top = 0
+  Caption = 'Form1'
+  ClientHeight = 406
+  ClientWidth = 280
+  Fill.Color = claRoyalblue
+  Fill.Kind = Solid
+  FormFactor.Width = 320
+  FormFactor.Height = 480
+  FormFactor.Devices = [Desktop]
+  OnResize = FormResize
+  DesignerMasterStyle = 0
+  object ZNativeDrawFigureLine1: TZNativeDrawFigureLine
+    Align = Top
+    Margins.Top = 55.000000000000000000
+    Position.Y = 55.000000000000000000
+    Size.Width = 280.000000000000000000
+    Size.Height = 10.000000000000000000
+    Size.PlatformDefault = False
+    Stroke.Color = claDeeppink
+    Stroke.Thickness = 5.000000000000000000
+  end
+  object ZNativeDrawFigureRectangle1: TZNativeDrawFigureRectangle
+    Position.X = 16.000000000000000000
+    Position.Y = 64.000000000000000000
+    Size.Width = 97.000000000000000000
+    Size.Height = 97.000000000000000000
+    Size.PlatformDefault = False
+    Fill.Kind = Gradient
+    Fill.Gradient.Points = <
+      item
+        Color = xFFFFB900
+        Offset = 0.000000000000000000
+      end
+      item
+        Color = xFF07AFFB
+        Offset = 1.000000000000000000
+      end>
+    Fill.Gradient.StartPosition.X = 0.500000000000000000
+    Fill.Gradient.StartPosition.Y = 1.000000000000000000
+    Fill.Gradient.StopPosition.X = 0.499999970197677600
+    Fill.Gradient.StopPosition.Y = 0.000000000000000000
+    Stroke.Color = claLime
+    Stroke.Thickness = 3.500000000000000000
+  end
+  object ZNativeDrawFigureRoundRect1: TZNativeDrawFigureRoundRect
+    Position.X = 128.000000000000000000
+    Position.Y = 120.000000000000000000
+    Size.Width = 129.000000000000000000
+    Size.Height = 89.000000000000000000
+    Size.PlatformDefault = False
+    Fill.Color = claChartreuse
+    Stroke.Color = claDarkorange
+    Stroke.Thickness = 2.000000000000000000
+    Corners = [TopRight, BottomLeft]
+    CornerType = InnerRound
+  end
+  object ZNativeDrawFigureEllipse1: TZNativeDrawFigureEllipse
+    Position.X = 42.000000000000000000
+    Position.Y = 164.000000000000000000
+    Size.Width = 129.000000000000000000
+    Size.Height = 89.000000000000000000
+    Size.PlatformDefault = False
+    Fill.Color = claKhaki
+    Stroke.Kind = None
+  end
+  object ZNativeDrawFigureCircle1: TZNativeDrawFigureCircle
+    Position.X = 160.000000000000000000
+    Position.Y = 256.000000000000000000
+    Size.Width = 97.000000000000000000
+    Size.Height = 97.000000000000000000
+    Size.PlatformDefault = False
+    Fill.Kind = Gradient
+    Fill.Gradient.Points = <
+      item
+        Color = xFFFF0606
+        Offset = 0.000000000000000000
+      end
+      item
+        Color = xFFF6FF06
+        Offset = 0.090062111616134640
+      end
+      item
+        Color = xFF1DFF03
+        Offset = 0.217391297221183800
+      end
+      item
+        Color = xFF09FFDD
+        Offset = 0.357142865657806400
+      end
+      item
+        Color = xFF0800E8
+        Offset = 0.509316742420196500
+      end
+      item
+        Color = xFFFD02EC
+        Offset = 0.652173936367034900
+      end
+      item
+        Color = xFFF50202
+        Offset = 0.819875776767730700
+      end
+      item
+        Color = claWhite
+        Offset = 1.000000000000000000
+      end>
+    Fill.Gradient.Style = Radial
+    Stroke.Color = claDarkslateblue
+    Stroke.Thickness = 3.000000000000000000
+  end
+  object ZNativeDrawFigureArc1: TZNativeDrawFigureArc
+    Position.X = 80.000000000000000000
+    Position.Y = 120.000000000000000000
+    Size.Width = 81.000000000000000000
+    Size.Height = 81.000000000000000000
+    Size.PlatformDefault = False
+    Fill.Kind = None
+    Stroke.Color = xFFD32F2F
+    Stroke.Thickness = 12.000000000000000000
+    EndAngle = 310.000000000000000000
+  end
+  object ZMaterialActionButton1: TZMaterialActionButton
+    Position.X = 200.000000000000000000
+    Position.Y = 312.000000000000000000
+    Size.Width = 56.000000000000000000
+    Size.Height = 56.000000000000000000
+    Size.PlatformDefault = False
+    OnClick = ZMaterialActionButton1Click
+    Color = xFFE91E63
+    ShadowDistance = 2.000000000000000000
+    ShadowSoftness = 0.899999976158142100
+    ShadowOpacity = 0.400000005960464500
+    object Text1: TText
+      Align = Client
+      HitTest = False
+      Size.Width = 56.000000000000000000
+      Size.Height = 56.000000000000000000
+      Size.PlatformDefault = False
+      Text = '+'
+      TextSettings.Font.Size = 32.000000000000000000
+      TextSettings.FontColor = claWhite
+    end
+  end
+  object Timer1: TTimer
+    Interval = 250
+    OnTimer = Timer1Timer
+    Left = 184
+    Top = 176
+  end
+  object Circle1: TCircle
+    Fill.Kind = Gradient
+    Fill.Gradient.Points = <
+      item
+        Color = xFFFF03FF
+        Offset = 0.000000000000000000
+      end
+      item
+        Color = xFF13FA02
+        Offset = 0.239130437374115000
+      end
+      item
+        Color = xFFFFDD06
+        Offset = 0.459627330303192100
+      end
+      item
+        Color = xFFFC0303
+        Offset = 0.708074510097503700
+      end
+      item
+        Color = claWhite
+        Offset = 1.000000000000000000
+      end>
+    Fill.Gradient.Style = Radial
+    Position.X = 24.000000000000000000
+    Position.Y = 320.000000000000000000
+    Size.Width = 105.000000000000000000
+    Size.Height = 106.000000000000000000
+    Size.PlatformDefault = False
+    object Text2: TText
+      Align = Client
+      HitTest = False
+      Size.Width = 105.000000000000000000
+      Size.Height = 106.000000000000000000
+      Size.PlatformDefault = False
+      Text = 'TCircle FMX'
+      TextSettings.Font.Size = 22.000000000000000000
+      TextSettings.FontColor = claWhite
+    end
+  end
+end

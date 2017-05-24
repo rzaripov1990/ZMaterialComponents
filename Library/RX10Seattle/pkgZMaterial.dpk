@@ -25,9 +25,9 @@ package pkgZMaterial;
 {$IMAGEBASE $400000}
 {$DEFINE DEBUG}
 {$ENDIF IMPLICITBUILDING}
-{$DESCRIPTION 'ZMaterial Components  author: ZuBy'}
-{$IMPLICITBUILD ON}
+{$DESCRIPTION 'author: ZuBy'}
 {$LIBSUFFIX '300'}
+{$IMPLICITBUILD ON}
 
 requires
   rtl,
@@ -35,6 +35,8 @@ requires
 
 contains
   FMX.ZMaterialEdit in '..\FMX.ZMaterialEdit.pas',
-  FMX.ZMaterialBackButton in '..\FMX.ZMaterialBackButton.pas';
+  FMX.ZMaterialBackButton in '..\FMX.ZMaterialBackButton.pas',
+  FMX.ZMaterialActionButton in '..\FMX.ZMaterialActionButton.pas',
+  FMX.ZNativeDrawFigure in '..\FMX.ZNativeDrawFigure.pas';
 
 end.
