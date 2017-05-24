@@ -34,9 +34,11 @@ requires
   fmx;
 
 contains
-  FMX.ZMaterialEdit in '..\FMX.ZMaterialEdit.pas',
-  FMX.ZMaterialBackButton in '..\FMX.ZMaterialBackButton.pas',
+  FMX.Graphics.Native in '..\FMX.Graphics.Native.pas',
   FMX.ZMaterialActionButton in '..\FMX.ZMaterialActionButton.pas',
+  FMX.ZMaterialBackButton in '..\FMX.ZMaterialBackButton.pas',
+  FMX.ZMaterialEdit in '..\FMX.ZMaterialEdit.pas',
+  FMX.ZMaterialTypes in '..\FMX.ZMaterialTypes.pas',
   FMX.ZNativeDrawFigure in '..\FMX.ZNativeDrawFigure.pas';
 
 end.

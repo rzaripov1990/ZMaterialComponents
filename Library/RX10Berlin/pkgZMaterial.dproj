@@ -134,9 +134,11 @@
         </DelphiCompile>
         <DCCReference Include="rtl.dcp"/>
         <DCCReference Include="fmx.dcp"/>
-        <DCCReference Include="..\FMX.ZMaterialEdit.pas"/>
-        <DCCReference Include="..\FMX.ZMaterialBackButton.pas"/>
+        <DCCReference Include="..\FMX.Graphics.Native.pas"/>
         <DCCReference Include="..\FMX.ZMaterialActionButton.pas"/>
+        <DCCReference Include="..\FMX.ZMaterialBackButton.pas"/>
+        <DCCReference Include="..\FMX.ZMaterialEdit.pas"/>
+        <DCCReference Include="..\FMX.ZMaterialTypes.pas"/>
         <DCCReference Include="..\FMX.ZNativeDrawFigure.pas"/>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
