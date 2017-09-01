@@ -11,9 +11,9 @@ unit FMX.ZMaterialEdit;
 interface
 
 uses
-  System.SysUtils, System.Classes,
+  System.SysUtils, System.Classes, System.UITypes, System.Types,
   FMX.Types, FMX.Controls, FMX.Layouts, FMX.Edit, FMX.StdCtrls, FMX.Graphics,
-  FMX.ZMaterialTypes;
+  FMX.ZMaterialTypes, FMX.Objects, FMX.TextLayout;
 
 type
 
@@ -28,6 +28,13 @@ type
     FLabel: TLabel;
 
     FAnimation: Boolean;
+
+    FPromptUpTextSettings: TTextSettings;
+    FPromptUpStylledSettings: TStyledSettings;
+
+    FPromptDownTextSettings: TTextSettings;
+    FPromptDownStylledSettings: TStyledSettings;
+
     FTextOnChangeEvent: TNotifyEvent;
     FTextOnTypingEvent: TNotifyEvent;
 
@@ -104,6 +111,10 @@ type
     function GetAutoTranslatePrompt: Boolean;
     procedure SetAutoTranslatePrompt(const Value: Boolean);
 
+    function GetPromptUpTextSettings: TTextSettings;
+    procedure SetPromptUpTextSettings(const Value: TTextSettings);
+
+    function GetTextSettingsClass: TTextSettingsClass;
   protected
     { Protected declarations }
     procedure Resize; override;
@@ -125,6 +136,9 @@ type
 
     property TextSettingsPrompt: TTextSettings read GetPromptSettings write SetPromptSettings;
     property StyledSettingsPrompt: TStyledSettings read GetPromptStyledSettings write SetPromptStyledSettings;
+
+    property TextSettingsPromptUp: TTextSettings read GetPromptUpTextSettings write SetPromptUpTextSettings;
+    property StyledSettingsPromptUp: TStyledSettings read FPromptUpStylledSettings write FPromptUpStylledSettings;
 
     property Animation: Boolean read GetAnimation write SetAnimation default True;
 
@@ -176,9 +190,45 @@ begin
   RegisterComponents('ZMaterial', [TZMaterialEdit]);
 end;
 
-{ TMaterialEdit }
+type
+  TPromptTextSettings = class(TTextSettings)
+  public
+    constructor Create(const AOwner: TPersistent); override;
+  published
+    property Font;
+    property FontColor;
+    property HorzAlign;
+    property VertAlign;
+    property WordWrap default True;
+    property Trimming default TTextTrimming.Character;
+  end;
+
+  { TMaterialEdit }
+
+function GetHeightLabel(const aLabel: TLabel; aFontStyle: TFontStyles; aFontSize: Single): Single;
+var
+  L: TTextLayout;
+begin
+  L := TTextLayoutManager.DefaultTextLayout.Create;
+  L.BeginUpdate;
+  try
+    L.Text := aLabel.Text;
+    L.MaxSize := TPointF.Create(aLabel.Width, 1000.00);
+    L.Font := aLabel.Font;
+    L.Font.Size := aFontSize;
+    L.Font.Style := aFontStyle;
+    L.WordWrap := aLabel.WordWrap;
+    L.HorizontalAlign := aLabel.TextAlign;
+    L.VerticalAlign := aLabel.VertTextAlign;
+  finally
+    L.EndUpdate;
+  end;
+  Result := L.Height;
+end;
 
 constructor TZMaterialEdit.Create(AOwner: TComponent);
+var
+  LClass: TTextSettingsClass;
 begin
   inherited Create(AOwner);
 
@@ -206,21 +256,37 @@ begin
   FLabel.WordWrap := False;
   FLabel.AutoSize := True;
   FLabel.HitTest := False;
+  FLabel.StyledSettings := FLabel.StyledSettings - [TStyledSetting.Size, TStyledSetting.FontColor,
+    TStyledSetting.Style];
   FLabel.BringToFront;
   FLabel.OnApplyStyleLookup := OnApplyStyleLookupPrompt;
 
   HitTest := False;
   Stored := True;
 
+  LClass := GetTextSettingsClass;
+  // if LClass = nil then
+  // LClass := TPromptTextSettings;
+
+  FPromptUpTextSettings := LClass.Create(Self);
+  FPromptUpTextSettings.Assign(FLabel.TextSettings);
+
+  FPromptDownTextSettings := LClass.Create(Self);
+  FPromptDownTextSettings.Assign(FLabel.TextSettings);
+
+  FPromptUpStylledSettings := FLabel.StyledSettings;
+  FPromptDownStylledSettings := FLabel.StyledSettings;
+
+  Height := 2 * FEdit.Height;
   DoResize;
-  if (csDesigning in ComponentState) then
-    FLabel.Position.Y := FEdit.Position.Y - FLabel.Height
-  else
-    FLabel.Position.Y := FEdit.Position.Y + Ymargin;
+  FLabel.Position.Y := FEdit.Position.Y + FEdit.Height / 2 - GetHeightLabel(FLabel, FPromptUpTextSettings.Font.Style,
+    FPromptUpTextSettings.Font.Size) / 2;
 end;
 
 destructor TZMaterialEdit.Destroy;
 begin
+  FreeAndNil(FPromptUpTextSettings);
+  FreeAndNil(FPromptDownTextSettings);
 {$IFDEF AUTOREFCOUNT}
   FEdit.DisposeOf;
   FEdit := nil;
@@ -288,26 +354,39 @@ begin
 end;
 
 procedure TZMaterialEdit.DoMyEnter;
+var
+  NewPositionY: Single;
 begin
-  if SameValue(FLabel.Position.Y, FEdit.Position.Y + Ymargin) then
+  NewPositionY := FEdit.Position.Y - Ymargin - GetHeightLabel(FLabel, FPromptUpTextSettings.Font.Style,
+    FPromptUpTextSettings.Font.Size);
+  if not SameValue(FLabel.Position.Y, NewPositionY) then
   begin
     if FAnimation then
-      TAnimator.AnimateFloatWait(FLabel, 'Position.Y', Max(0, FLabel.Position.Y - FEdit.Height), 0.08)
+      TAnimator.AnimateFloatWait(FLabel, 'Position.Y', NewPositionY, 0.08)
     else
-      FLabel.Position.Y := 0; // FEdit.Position.Y - FLabel.Height;
+      FLabel.Position.Y := NewPositionY;
+    FLabel.StyledSettings := FPromptUpStylledSettings;
+    FLabel.TextSettings.Assign(FPromptUpTextSettings);
   end;
   if Assigned(OnEnter) then
     OnEnter(Self);
 end;
 
 procedure TZMaterialEdit.DoMyExit;
+var
+  NewPositionY: Single;
 begin
-  if (FEdit.Text.Trim.IsEmpty) and (not SameValue(FLabel.Position.Y, FEdit.Position.Y + Ymargin)) then
+  NewPositionY := FEdit.Position.Y + FEdit.Height / 2 - GetHeightLabel(FLabel, FPromptDownTextSettings.Font.Style,
+    FPromptDownTextSettings.Font.Size) / 2;
+  if (FEdit.Text.Trim.IsEmpty) and (not SameValue(FLabel.Position.Y, NewPositionY)) then
   begin
     if FAnimation then
-      TAnimator.AnimateFloatWait(FLabel, 'Position.Y', FEdit.Position.Y + Ymargin, 0.08)
+      TAnimator.AnimateFloatWait(FLabel, 'Position.Y', NewPositionY, 0.08)
     else
-      FLabel.Position.Y := FEdit.Position.Y + Ymargin;
+      FLabel.Position.Y := NewPositionY;
+    FLabel.StyledSettings := FPromptDownStylledSettings;
+    FLabel.TextSettings.Assign(FPromptDownTextSettings);
+    FLabel.Repaint;
   end;
   if Assigned(OnExit) then
     OnExit(Self);
@@ -315,16 +394,23 @@ end;
 
 procedure TZMaterialEdit.DoResize;
 begin
-  Height := FEdit.Height + FLabel.Height + (Ymargin * 4);
+  // Height := FEdit.Height + FLabel.Height + (Ymargin * 4);
   FLabel.Width := FEdit.Width;
 
   FLabel.Position.X := Xmargin + FEdit.Position.X;
   if not FEdit.Text.IsEmpty then
-    FLabel.Position.Y := FEdit.Position.Y - FEdit.Height + Ymargin
+  begin
+    FLabel.Position.Y := FEdit.Position.Y - Ymargin - GetHeightLabel(FLabel, FPromptUpTextSettings.Font.Style,
+      FPromptUpTextSettings.Font.Size);
+    FLabel.StyledSettings := FPromptUpStylledSettings;
+    FLabel.TextSettings.Assign(FPromptUpTextSettings);
+  end
   else
   begin
-    FLabel.Position.X := Xmargin + FEdit.Position.X;
-    FLabel.Position.Y := FEdit.Position.Y + Ymargin;
+    FLabel.Position.Y := FEdit.Position.Y + FEdit.Height / 2 -
+      GetHeightLabel(FLabel, FPromptDownTextSettings.Font.Style, FPromptDownTextSettings.Font.Size) / 2;
+    FLabel.StyledSettings := FPromptDownStylledSettings;
+    FLabel.TextSettings.Assign(FPromptDownTextSettings);
   end;
 end;
 
@@ -400,12 +486,17 @@ end;
 
 function TZMaterialEdit.GetPromptSettings: TTextSettings;
 begin
-  Result := FLabel.TextSettings;
+  Result := FPromptDownTextSettings;
 end;
 
 function TZMaterialEdit.GetPromptStyledSettings: TStyledSettings;
 begin
   Result := FLabel.StyledSettings;
+end;
+
+function TZMaterialEdit.GetPromptUpTextSettings: TTextSettings;
+begin
+  Result := FPromptUpTextSettings;
 end;
 
 function TZMaterialEdit.GetReadOnly: Boolean;
@@ -426,6 +517,11 @@ end;
 function TZMaterialEdit.GetTextSettings: TTextSettings;
 begin
   Result := FEdit.TextSettings;
+end;
+
+function TZMaterialEdit.GetTextSettingsClass: TTextSettingsClass;
+begin
+  Result := TPromptTextSettings;
 end;
 
 function TZMaterialEdit.GetTextStyledSettings: TStyledSettings;
@@ -507,12 +603,20 @@ end;
 
 procedure TZMaterialEdit.SetPromptSettings(const Value: TTextSettings);
 begin
-  FLabel.TextSettings.Assign(Value);
+  FPromptDownTextSettings.Assign(Value);
+  FLabel.TextSettings.Assign(FPromptDownTextSettings);
+  DoResize;
 end;
 
 procedure TZMaterialEdit.SetPromptStyledSettings(const Value: TStyledSettings);
 begin
   FLabel.StyledSettings := Value;
+  FPromptDownStylledSettings := Value;
+end;
+
+procedure TZMaterialEdit.SetPromptUpTextSettings(const Value: TTextSettings);
+begin
+  FPromptUpTextSettings.Assign(Value);
 end;
 
 procedure TZMaterialEdit.SetReadOnly(const Value: Boolean);
@@ -538,6 +642,15 @@ end;
 procedure TZMaterialEdit.SetTextStyledSettings(const Value: TStyledSettings);
 begin
   FEdit.StyledSettings := Value;
+end;
+
+{ TPromptTextSettings }
+
+constructor TPromptTextSettings.Create(const AOwner: TPersistent);
+begin
+  inherited;
+  WordWrap := False;
+  Trimming := TTextTrimming.Character;
 end;
 
 end.

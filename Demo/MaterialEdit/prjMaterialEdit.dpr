@@ -3,8 +3,7 @@ program prjMaterialEdit;
 uses
   System.StartUpCopy,
   FMX.Forms,
-  uMain in 'uMain.pas' {Form1},
-  FMX.ZMaterialEdit in '..\Library\FMX.ZMaterialEdit.pas';
+  uMain in 'uMain.pas' {Form1};
 
 {$R *.res}
 
