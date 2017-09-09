@@ -224,6 +224,7 @@ begin
     L.EndUpdate;
   end;
   Result := L.Height;
+  FreeAndNil(L);
 end;
 
 constructor TZMaterialEdit.Create(AOwner: TComponent);
