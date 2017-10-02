@@ -48,6 +48,7 @@ type
     procedure DoAnimateBackToMenu;
     procedure DoAnimateMenuToClose;
     procedure DoAnimateCloseToMenu;
+    procedure SetColor(const Value: TAlphaColor);
   protected
     { Protected declarations }
   public
@@ -58,7 +59,9 @@ type
     procedure Animate(const aAnimationType: TZMaterialBackButtonAnimationType);
   published
     { Published declarations }
+    property Visible;
     property Kind: TZMaterialBackButtonKind read FKind write SetKind default TZMaterialBackButtonKind.Menu;
+    property Color: TAlphaColor read FColor write SetColor;
   end;
 
 procedure Register;
@@ -78,6 +81,8 @@ end;
 constructor TZMaterialBackButton.Create(AOwner: TComponent);
 begin
   inherited Create(AOwner);
+
+  HitTest := true;
 
   FAnimationType := TZMaterialBackButtonAnimationType.None;
   FKind := TZMaterialBackButtonKind.Menu;
@@ -174,7 +179,7 @@ begin
   TAnimator.AnimateFloatWait(FBottomLine, 'RotationAngle', 0, 0.125);
   FMiddleLine.RotationAngle := 0;
   FMiddleLine.SetBounds(0, 6, FLayout.Width, 2);
-  FMiddleLine.Visible := True;
+  FMiddleLine.Visible := true;
   TAnimator.AnimateFloat(FLayout, 'RotationAngle', 360, 0.125);
   TAnimator.AnimateFloat(FTopLine, 'Position.Y', FTopLinePosY, 0.125);
   TAnimator.AnimateFloatWait(FBottomLine, 'Position.Y', FBottomLinePosY, 0.125);
@@ -222,7 +227,7 @@ begin
   FMiddleLine.RotationAngle := 0;
   FMiddleLine.SetBounds(0, 6, FLayout.Width, 2);
   FMiddleLine.Fill.Color := FColor;
-  FMiddleLine.Visible := True;
+  FMiddleLine.Visible := true;
 
   FBottomLine.Align := TAlignLayout.None;
   FBottomLine.Stroke.Kind := TBrushKind.None;
@@ -234,6 +239,14 @@ begin
   FTopLinePosY := FTopLine.Position.Y;
   FMiddleLinePosY := FMiddleLine.Position.Y;
   FBottomLinePosY := FBottomLine.Position.Y;
+end;
+
+procedure TZMaterialBackButton.SetColor(const Value: TAlphaColor);
+begin
+  FColor := Value;
+  FTopLine.Fill.Color := FColor;
+  FMiddleLine.Fill.Color := FColor;
+  FBottomLine.Fill.Color := FColor;
 end;
 
 procedure TZMaterialBackButton.SetKind(const Value: TZMaterialBackButtonKind);
